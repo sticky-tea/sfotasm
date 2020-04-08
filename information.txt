@@ -1,0 +1,107 @@
+Syntax
+-------
+
+NESasm-like syntax.
+Numbers are indicated with #
+HEX numbers have symbol $
+BIN numbers %
+Addresses have no # symbol
+
+Examples: 
+LDA $CC ; load the value from 0xCC in accumulator
+.db #%00101001 ; reserve 0b00101001
+
+Addressing modes:
+Immediate: LDA #$10
+Relative: BEQ label
+Absolute: STA $1234
+Absolute, X: STA $2000, X
+Absolute, Y: STA $2000, Y
+Indirect, X: LDA ($40,X)
+Indirect, Y: LDA ($40),Y
+
+Directives
+----------
+
+.inesprg
+	Set size of PRG-ROM in 16kb units
+
+.ineschr
+	Set size of CHR-ROM in 8kb units
+
+.inesmap
+	Set the number of mapper
+
+.inesmir
+	Set mirroring
+
+.ines
+	Can be used instead commands above: .ines prg chr map mir
+		.ines 1 1 0 2
+
+.include
+	Include code file
+		.include "file1.asm"
+
+.incbin
+	Include binary file
+		.incbin "mario.chr"
+
+.org
+	Set program counter address
+		.org $C000
+
+.bank
+	Set the program counter to the start of 8kb bank
+		.bank 0
+
+.db or .byte
+	Reserve byte
+		.db $FF, %00010000
+
+.dw or .word
+	Reserve word(two bytes)
+		.db $ABCD
+
+.use
+	Add extra functional:
+	illegal_opcodes - undocumented opcodes
+	addresses_defines - defines some useful NES addresses(see Defines)
+
+.list
+	Start listing in file
+
+.nolist
+	Stop listing
+
+.rsset
+	Set inner counter
+		.rsset $0000
+
+.rs
+	Assign inner counter to label
+		.rsset $0000
+		var .rs 1 ; reserse 1 byte in $0000
+
+.define
+	Assign value to a name
+		.define @MAX_SPRITES #64
+		LDA @MAX_SPRITES ; LDA #64
+
+Defines
+-------
+
+$C000 - @START
+$FFFA - @INTS
+
+APU:
+$4000 - @APU_PULSE1_CTRL
+$4001 - @APU_PULSE1_RCTRL
+$4002 - @APU_PULSE1_FT
+$4003 - @APU_PULSE1_CT
+
+Controllers:
+$4016 - @JOY1
+$4017 - @JOY2
+
+Will add new soon.
