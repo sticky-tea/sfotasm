@@ -10,9 +10,14 @@ std::vector<std::string> instructions::parseInstruction(std::string instruction)
                                  std::istream_iterator<std::string>());
 
 	std::string inst_name = parsed_inst[0];
+	std::string kw = std::string(inst_name);
 
-	if(codes.isKeyword(inst_name))
+	for(auto& c : kw) 
+		c = ::toupper(c);
+
+	if(codes.isKeyword(kw))
 	{
+		parsed_inst[0] = kw;
 		return parseKeyword(parsed_inst);
 	}
 
