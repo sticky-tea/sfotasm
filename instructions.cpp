@@ -66,6 +66,9 @@ std::vector<std::string> instructions::parseKeyword(std::vector<std::string> ins
 			{
 				op = convertToHex(op, isNumber('#'+op), true);
 
+				if(codes.isRelativeKeyword(name))
+					return {RELATIVE_ADDR_SIGN, op, codes.getOpcode(name, OPCODE_TYPE::IMPLIED)};
+
 				std::string low = std::string(1, op[0]) + std::string(1, op[1]);
 				std::string high = std::string(1, op[2]) + std::string(1, op[3]);
 

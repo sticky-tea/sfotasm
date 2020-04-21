@@ -350,6 +350,13 @@ int main(int argc, char** argv)
 			rel_adrs[instr_num] = real_adr;
 		}
 
+		else if(res[0] == RELATIVE_ADDR_SIGN)
+		{
+			real_adr += 2;
+			rel_adrs[instr_num] = real_adr;
+		}
+
+
 		else
 		{
 			real_adr += res.size();
@@ -532,6 +539,37 @@ int main(int argc, char** argv)
 				if(adr < -0xFF)
 					err_show(TOO_FAR_JMP, 2, i);
 				adr = 0xFF - (rel_adrs[instr_num] - label_adrs[res[1]] - 1);
+			}
+
+			if(adr > 0xFF)
+				err_show(TOO_FAR_JMP, 2, i);
+
+			std::stringstream s;
+			std::string hx;
+			s << std::hex << std::uppercase << adr;
+			hx = s.str();
+
+			if(hx.length() < 2)
+				hx = "0" + hx;
+
+			if(nowlisting)
+				listing += "00"+res[2]+hx + "\t" + i + "\n";
+
+			prog[bank] += hx;
+			position += 2*2;
+		}
+
+		else if(res[0] == RELATIVE_ADDR_SIGN)
+		{
+			prog[bank] += res[2];
+
+			int adr = std::stoi(res[1], 0, 16) - rel_adrs[instr_num];			
+
+			if(adr < 0)
+			{
+				if(adr < -0xFF)
+					err_show(TOO_FAR_JMP, 2, i);
+				adr = 0xFF - (rel_adrs[instr_num] - std::stoi(res[1], 0, 16) - 1);
 			}
 
 			if(adr > 0xFF)

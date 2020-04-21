@@ -28,6 +28,7 @@ const std::string COMMENT_SIGN = ";";
 const std::string LABEL_CALL_SIGN = "lc";
 const std::string JMP_SIGN = "j";
 const std::string RELATIVE_SIGN = "rl";
+const std::string RELATIVE_ADDR_SIGN = "ral";
 const std::string PREPROC_SIGN = ".";
 const std::string ERROR_ILLEGAL_INSTRUCTION_SIGN = "ei"; 
 const std::string ERROR_ILLEGAL_OPERAND_SIGN = "eo"; 
